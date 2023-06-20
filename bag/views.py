@@ -14,6 +14,9 @@ def add_to_bag(request, item_id):
 
     quantity = int(request.POST.get('quantity'))
     redirect_url = request.POST.get('redirect_url')
+    size = None
+    if 'product_size' in request.POST:
+        size = request.POST['product_size']
 
     # puts the bag contents in to the session
     # checks if the bag already exists and if not creates it
@@ -22,13 +25,26 @@ def add_to_bag(request, item_id):
     # {'id': 'quantity'}
     bag = request.session.get('bag', {})
 
-    # checks if the item is already in the bag
-    # uses the item id key from dictionary
-    if item_id in list(bag.keys()):
-        # if so increments it by the chosen quantity
-        bag[item_id] += quantity
+    # checks if a product has a size field
+    if size:
+        # handles products with a size field
+        # if the same item in different sizes splits to separate items in bag
+        # creates a dictionary within the dictionary
+        if item_id in list(bag.keys()):
+            if size in bag[item_id]['items_by_size'].keys():
+                bag[item_id]['items_by_size'][size] += quantity
+            else:
+                bag[item_id]['items_by_size'][size] = quantity
+        else:
+            bag[item_id] = {'items_by_size': {size: quantity}}
     else:
-        bag[item_id] = quantity
+        # if no size on prodcut
+        # checks if the item is already in the bag
+        # uses the item id key from dictionary
+        if item_id in list(bag.keys()):
+            bag[item_id] += quantity
+        else:
+            bag[item_id] = quantity
 
     request.session['bag'] = bag
     return redirect(redirect_url)
