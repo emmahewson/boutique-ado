@@ -19,8 +19,7 @@ class ProductForm(forms.ModelForm):
         categories = Category.objects.all()
 
         # Creates a list of tuples of the id & friendly name
-        friendly_name = [(c.id, c.get_friendly_name()) for c in categories]
-        print(friendly_name)
+        friendly_names = [(c.id, c.get_friendly_name()) for c in categories]
 
         # sets the name in the category select as the friendly name
         self.fields['category'].choices = friendly_names
