@@ -34,7 +34,7 @@ ALLOWED_HOSTS = [
     '8000-emmahewson-boutiqueado-bae3ut9ju24.ws-eu99.gitpod.io',
     '8000-emmahewson-boutiqueado-bae3ut9ju24.ws-eu100.gitpod.io',
     'boutique-ado-eh.herokuapp.com',
-    'https://boutique-ado-eh-80eb0c547dca.herokuapp.com/',
+    'boutique-ado-eh-80eb0c547dca.herokuapp.com',
     'localhost',
 ]
 
